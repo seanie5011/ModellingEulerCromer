@@ -1,0 +1,13 @@
+List of Models to make:
+
+Single Pendulum /
+Single Spring /
+Elastic Pendulum
+Double Pendulum
+Double Spring
+Pendulum on a Cart
+Kapitzas Pendulum
+Non-Linear Oscillator
+Random Pulley thing
+Double Compound Pendulum
+Billiards?
