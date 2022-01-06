@@ -25,6 +25,7 @@
   <ItemGroup>
     <Compile Include="button.py" />
     <Compile Include="MatplotlibDisplay.py" />
+    <Compile Include="ElasticPendulum.py" />
     <Compile Include="spring.py">
       <SubType>Code</SubType>
     </Compile>

@@ -13,13 +13,18 @@ class Spring():
             self.e_par = (0, 1) #unit vector parallel to spring
             self.e_per = (1, 0) #unit vector perpendicular to spring
         else: #if movement diagonally
-            slope = (end_pos[1] - start_pos[1]) / (end_pos[0] - start_pos[0]) #(y2 - y1) / (x2 - x1)
-            intercept = start_pos[1] - slope * start_pos[0] #y = m*x + c
+            slope = (self.end_pos[1] - self.start_pos[1]) / (self.end_pos[0] - self.start_pos[0]) #(y2 - y1) / (x2 - x1)
+            sign = slope / abs(slope) #gets the sign of the slope, do this so we know whether the unit vectors are in the positive or negative direction
+            intercept = self.start_pos[1] - slope * self.start_pos[0] #y = m*x + c
 
-            par_mag = math.sqrt((1)**2 + (slope + intercept)**2) #mag of vector parallel to spring, slope + intercept comes from y = m*x + c for x = 1
-            self.e_par = (1 / par_mag, (slope + intercept) / par_mag) #unit vector parallel to spring
-            per_mag = math.sqrt((1)**2 + (-1/slope + intercept)**2) #mag of vector perpendicular to spring, -1/slope is the slope of perpendicular line
-            self.e_per = (1 / per_mag, (-1/slope + intercept) / per_mag) #unit vector perpendicular to spring
+            par_adjusted_zero = (self.start_pos[0], self.start_pos[1] - intercept) #find line parallel to axis of spring, but with intercept at origin
+            par_mag = math.sqrt((par_adjusted_zero[0])**2 + (par_adjusted_zero[1])**2) #mag of vector parallel to spring, note that its just par_adjusted_zero as other point is (0, 0)
+            self.e_par = (par_adjusted_zero[0] / par_mag * sign, par_adjusted_zero[1] / par_mag * sign) #unit vector parallel to spring
+
+            per_point = (1, -1/slope * 1 + intercept)#a point on the perpendiuclar line, to be used as point to get unit vector
+            per_adjusted_zero = (per_point[0], per_point[1] - intercept) #find line perpendicular to axis of spring, but with intercept at origin
+            per_mag = math.sqrt((per_adjusted_zero[0])**2 + (per_adjusted_zero[1])**2) #mag of vector perpendicular to spring, note that its just per_adjusted_zero as other point is (0, 0)
+            self.e_per = (per_adjusted_zero[0] / per_mag, per_adjusted_zero[1] / per_mag) #unit vector perpendicular to spring
 
         self.s_start_pos = (start_pos[0] + lead1 * self.e_par[0], start_pos[1] + lead1 * self.e_par[1]) #where spring starts, adding lead 1 to start
         self.s_end_pos = (end_pos[0] - lead2 * self.e_par[0], end_pos[1] - lead2 * self.e_par[1]) #where spring ends, taking lead 2 from end
@@ -64,16 +69,22 @@ class Spring():
             self.e_per = (1, 0)
         else: #if movement diagonally
             slope = (self.end_pos[1] - self.start_pos[1]) / (self.end_pos[0] - self.start_pos[0])
-            intercept = self.start_pos[1] - slope * self.start_pos[0]
+            sign = slope / abs(slope)
+            intercept = self.start_pos[1] - slope * self.start_pos[0] #y = m*x + c
 
-            par_mag = math.sqrt((1)**2 + (slope + intercept)**2)
-            self.e_par = (1 / par_mag, (slope + intercept) / par_mag)
-            per_mag = math.sqrt((1)**2 + (-1/slope + intercept)**2)
-            self.e_per = (1 / per_mag, (-1/slope + intercept) / per_mag)
+            par_adjusted_zero = (self.start_pos[0], self.start_pos[1] - intercept)
+            par_mag = math.sqrt((par_adjusted_zero[0])**2 + (par_adjusted_zero[1])**2)
+            self.e_par = (par_adjusted_zero[0] / par_mag * sign, par_adjusted_zero[1] / par_mag * sign)
+
+            per_point = (1, -1/slope * 1 + intercept)
+            per_adjusted_zero = (per_point[0], per_point[1] - intercept)
+            per_mag = math.sqrt((per_adjusted_zero[0])**2 + (per_adjusted_zero[1])**2)
+            self.e_per = (per_adjusted_zero[0] / per_mag, per_adjusted_zero[1] / per_mag)
 
         self.s_start_pos = (self.start_pos[0] + self.lead1 * self.e_par[0], self.start_pos[1] + self.lead1 * self.e_par[1])
         self.s_end_pos = (self.end_pos[0] - self.lead2 * self.e_par[0], self.end_pos[1] - self.lead2 * self.e_par[1])
         self.length = math.sqrt((self.s_end_pos[0] - self.s_start_pos[0])**2 + (self.s_end_pos[1] - self.s_start_pos[1])**2)
+
         if self.length > self.nodes * self.spring_width: #max length is n*w
             self.length = self.nodes * self.spring_width
 

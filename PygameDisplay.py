@@ -4,6 +4,7 @@ import textbox
 import spring
 import SinglePendulum as SP
 import SingleSpring as SS
+import ElasticPendulum as EP
 
 pygame.init()
 
@@ -235,6 +236,19 @@ model_displayinitnames.append(["mass_eom", "mass_color", "mass_width", "spring_p
 model_displayinitvals.append([SS_Mass, RED, 100, (0, layer2centre[1]), 250, GREY, 50, 10])
 SS_Manager = SS.SPPygame(*model_displayinitvals[1]) #the * unpacks the list
 display_group.append(SS_Manager)
+
+#-Elastic Spring with Mass
+model_namelist.append("Elastic Pendulum")
+
+model_eominitnames.append(["x", "v", "theta", "omega", "k", "m", "l", "g", "gamma", "A", "B", "t", "dt", "FPS"])
+model_eominitvals.append([1, 0, 60, 0, 10, 1, 10, 9.8, 0, 0, 0, 0, 0.001, FPS])
+EP_Mass = EP.EOM(*model_eominitvals[2]) #the * unpacks the list
+eom_group.append(EP_Mass)
+
+model_displayinitnames.append(["mass_eom", "mass_color", "mass_radius", "scale", "spring_pos", "spring_offset", "spring_color", "spring_width", "nodes"])
+model_displayinitvals.append([EP_Mass, RED, 20, 30, (layer2centre[0], 0), (0, 0), GREY, 50, 30])
+EP_Manager = EP.SPPygame(*model_displayinitvals[2]) #the * unpacks the list
+display_group.append(EP_Manager)
 
 #save initial values for reuse:
 model_eominitvals_true = [row[:] for row in model_eominitvals]
