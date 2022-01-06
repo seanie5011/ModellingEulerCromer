@@ -5,6 +5,7 @@ import spring
 import SinglePendulum as SP
 import SingleSpring as SS
 import ElasticPendulum as EP
+import DoublePendulum as DP
 
 pygame.init()
 
@@ -250,6 +251,19 @@ model_displayinitvals.append([EP_Mass, RED, 20, 30, (layer2centre[0], 0), (0, 0)
 EP_Manager = EP.SPPygame(*model_displayinitvals[2]) #the * unpacks the list
 display_group.append(EP_Manager)
 
+#-Double Pendulum
+model_namelist.append("Double Pendulum")
+
+model_eominitnames.append(["theta1", "omega1", "m1", "l1", "theta2", "omega2", "m2", "l2", "g", "gamma", "A", "B", "t", "dt", "FPS"])
+model_eominitvals.append([120, 0, 1, 2, 30, 0, 1, 2, 9.8, 0, 0, 0, 0, 0.001, FPS])
+DP_Mass = DP.EOM(*model_eominitvals[3]) #the * unpacks the list
+eom_group.append(DP_Mass)
+
+model_displayinitnames.append(["mass_eom", "mass1_color", "mass2_color", "mass_radius", "stick_pos", "stick_color", "stick_width", "scale"])
+model_displayinitvals.append([DP_Mass, BLUE, RED, 20, (layer2centre[0], layer2centre[1]), GREY, 3, 150.0/DP_Mass.l1])
+DP_Manager = DP.SPPygame(*model_displayinitvals[3]) #the * unpacks the list to give mass_eom, mass_color, mass_radius, stick_pos, stick_color, stick_width, scale
+display_group.append(DP_Manager)
+
 #save initial values for reuse:
 model_eominitvals_true = [row[:] for row in model_eominitvals]
 model_displayinitvals_true = [row[:] for row in model_displayinitvals]
@@ -388,7 +402,7 @@ class GameState():
                     if event.key == pygame.K_t:
                         display_group[self.model_use_index].tracing = not display_group[self.model_use_index].tracing #turns on and off tracing display
                     if event.key == pygame.K_y:
-                        display_group[self.model_use_index].list_points = [display_group[self.model_use_index].end_pos] #resets the position list to reset tracing
+                        display_group[self.model_use_index].reset_tracing()
 
                     #-Pause Model
                     if event.key == pygame.K_p:

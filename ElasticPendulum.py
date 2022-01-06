@@ -240,6 +240,9 @@ class SPPygame(pygame.sprite.Sprite): #draws the pendulum to any surface (passed
             self.reinit_list = [self.m, self.m_color, self.m_radius, self.scale, self.s_color, self.start_pos, self.end_pos, self.spring_offset, self.s_width, self.make_spring, self.newzero, self.list_points[:], self.tracing]
         except:
             self.reinit()
+
+    def reset_tracing(self):
+        self.list_points = [self.end_pos] #resets tracing to most recent position
                 
     def update(self):
         self.m.update()
