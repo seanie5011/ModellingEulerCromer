@@ -6,6 +6,7 @@ import SinglePendulum as SP
 import SingleSpring as SS
 import ElasticPendulum as EP
 import DoublePendulum as DP
+import DoublePendulum1Spring as DP1S
 
 pygame.init()
 
@@ -263,6 +264,19 @@ model_displayinitnames.append(["mass_eom", "mass1_color", "mass2_color", "mass_r
 model_displayinitvals.append([DP_Mass, BLUE, RED, 20, (layer2centre[0], layer2centre[1]), GREY, 3, 150.0/DP_Mass.l1])
 DP_Manager = DP.SPPygame(*model_displayinitvals[3]) #the * unpacks the list to give mass_eom, mass_color, mass_radius, stick_pos, stick_color, stick_width, scale
 display_group.append(DP_Manager)
+
+#-Double Pendulum 1 Spring
+model_namelist.append("x2 Pend with Spring")
+
+model_eominitnames.append(["x", "v", "theta1", "omega1", "m1", "l1", "theta2", "omega2", "m2", "l2", "g", "k", "gamma", "A", "B", "t", "dt", "FPS"])
+model_eominitvals.append([0, 0, 0, 0, 1, 2, 0, 0, 1, 2, 9.8, 10, 0, 0, 0, 0, 0.001, FPS])
+DP1S_Mass = DP1S.EOM(*model_eominitvals[4]) #the * unpacks the list
+eom_group.append(DP1S_Mass)
+
+model_displayinitnames.append(["mass_eom", "mass1_color", "mass2_color", "mass_radius", "stick_pos", "stick_color", "stick_width", "spring_width", "nodes", "scale"])
+model_displayinitvals.append([DP1S_Mass, BLUE, RED, 20, (layer2centre[0], layer2centre[1]), GREY, 3, 50, 30, 150.0/DP_Mass.l1])
+DP1S_Manager = DP1S.SPPygame(*model_displayinitvals[4]) #the * unpacks the list to give mass_eom, mass_color, mass_radius, stick_pos, stick_color, stick_width, scale
+display_group.append(DP1S_Manager)
 
 #save initial values for reuse:
 model_eominitvals_true = [row[:] for row in model_eominitvals]

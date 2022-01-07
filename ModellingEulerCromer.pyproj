@@ -24,6 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="button.py" />
+    <Compile Include="DoublePendulum1Spring.py" />
     <Compile Include="MatplotlibDisplay.py" />
     <Compile Include="ElasticPendulum.py" />
     <Compile Include="DoublePendulum.py" />
