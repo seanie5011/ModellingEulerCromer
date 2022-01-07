@@ -248,7 +248,7 @@ EP_Mass = EP.EOM(*model_eominitvals[2]) #the * unpacks the list
 eom_group.append(EP_Mass)
 
 model_displayinitnames.append(["mass_eom", "mass_color", "mass_radius", "scale", "spring_pos", "spring_offset", "spring_color", "spring_width", "nodes"])
-model_displayinitvals.append([EP_Mass, RED, 20, 30, (layer2centre[0], 0), (0, 0), GREY, 50, 30])
+model_displayinitvals.append([EP_Mass, RED, 20, 30, (layer2centre[0], 300), (0, 0), GREY, 50, 30])
 EP_Manager = EP.SPPygame(*model_displayinitvals[2]) #the * unpacks the list
 display_group.append(EP_Manager)
 
@@ -269,7 +269,7 @@ display_group.append(DP_Manager)
 model_namelist.append("x2 Pend with Spring")
 
 model_eominitnames.append(["x", "v", "theta1", "omega1", "m1", "l1", "theta2", "omega2", "m2", "l2", "g", "k", "gamma", "A", "B", "t", "dt", "FPS"])
-model_eominitvals.append([0, 0, 0, 0, 1, 2, 0, 0, 1, 2, 9.8, 10, 0, 0, 0, 0, 0.001, FPS])
+model_eominitvals.append([0, 0, 60, 0, 1, 2, 0, 0, 1, 2, 9.8, 2, 0, 0, 0, 0, 0.001, FPS])
 DP1S_Mass = DP1S.EOM(*model_eominitvals[4]) #the * unpacks the list
 eom_group.append(DP1S_Mass)
 

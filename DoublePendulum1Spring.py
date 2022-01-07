@@ -105,7 +105,7 @@ class EOM():
         self.pos1 = self.reinit_list[21]
         self.pos2 = self.reinit_list[22]
 
-    def changeinit(self, theta1, omega1, m1, l1, theta2, omega2, m2, l2, g, gamma, A, B, t, dt, FPS): #exact same as init, changes initial values
+    def changeinit(self, x, v, theta1, omega1, m1, l1, theta2, omega2, m2, l2, k, g, gamma, A, B, t, dt, FPS): #exact same as init, changes initial values
         try:
             self.x = x
             self.v = v
@@ -148,19 +148,20 @@ class EOM():
             A = self.l1 * self.alpha1 * math.sin(self.theta2 - self.theta1)
             B = (self.l2 + self.x) * (self.omega2)**2
             C = self.g * math.cos(self.theta2)
-            C1 = (self.m1 + self.m2) * (self.l1)**2
-            D = self.m2 * (self.l2 + self.x) * math.cos(self.theta2 - self.theta1) * self.alpha2
-            E = self.m2 * math.sin(self.theta2 - self.theta1) * self.a
-            F = 2 * self.m2 * self.v * self.omega2 * math.cos(self.theta2 - self.theta1)
-            G = self.m2 * (self.l2 + self.x) * math.sin(self.theta2 - self.theta1) * (self.omega2)**2
-            H = (self.m1 + self.m2) * self.g * math.sin(self.theta1)
-            I = self.l2 + self.x
-            J = self.l1 * math.cos(self.theta2 - self.theta1) * self.alpha1
-            K = self.l1 * math.sin(self.theta2 - self.theta1) * (self.omega1)**2
-            P = self.g * math.sin(self.theta2)
+            D = self.k * self.x / self.m2
+            E = (self.m1 + self.m2) * (self.l1)**2
+            F = self.m2 * (self.l2 + self.x) * math.cos(self.theta2 - self.theta1) * self.alpha2
+            G = self.m2 * math.sin(self.theta2 - self.theta1) * self.a
+            H = 2 * self.m2 * self.v * self.omega2 * math.cos(self.theta2 - self.theta1)
+            I = self.m2 * (self.l2 + self.x) * math.sin(self.theta2 - self.theta1) * (self.omega2)**2
+            J = (self.m1 + self.m2) * self.g * math.sin(self.theta1)
+            K = self.l2 + self.x
+            P = self.l1 * math.cos(self.theta2 - self.theta1) * self.alpha1
+            Q = self.l1 * math.sin(self.theta2 - self.theta1) * (self.omega1)**2
+            S = self.g * math.sin(self.theta2)
 
             #pendulum 1
-            self.alpha1 = -(D + E + F - G + H) / C1 #standard motion
+            self.alpha1 = -(F + G + H - I + J) / E #standard motion
             self.alpha1 += -2 * self.gamma * self.omega1 #damping
             self.alpha1 += self.A * math.cos(self.B * self.t) #driving force
 
@@ -172,8 +173,7 @@ class EOM():
 
             #pendulum 2
             #length
-            self.a = -A + B + C #standard motion
-            print(self.a)
+            self.a = -A + B + C - D #standard motion
             self.a += (-self.gamma / self.m2) * self.v #damping, velocity dependant
             self.a += self.A * math.cos(self.B * self.t) #driving force, no dependance on system
 
@@ -182,7 +182,7 @@ class EOM():
             self.x += self.v * self.dt
 
             #angle
-            self.alpha2 = -(J + K + P) / I #standard motion
+            self.alpha2 = -(P + Q + S) / K #standard motion
             self.alpha2 += -2 * self.gamma * self.omega2 #damping
             self.alpha2 += self.A * math.cos(self.B * self.t) #driving force
 

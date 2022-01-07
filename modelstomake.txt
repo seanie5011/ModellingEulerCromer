@@ -3,8 +3,8 @@ List of Models to make:
 Single Pendulum /
 Single Spring /
 Elastic Pendulum /
-Double Pendulum
-Double Pendulum 1 Spring
+Double Pendulum /
+Double Pendulum 1 Spring /
 Double Spring
 Double Spring Pendulum
 Double Compound Pendulum
