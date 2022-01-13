@@ -149,19 +149,21 @@ class EOM():
             B = (self.l2 + self.x) * (self.omega2)**2
             C = self.g * math.cos(self.theta2)
             D = self.k * self.x / self.m2
-            E = (self.m1 + self.m2) * (self.l1)**2
-            F = self.m2 * (self.l2 + self.x) * math.cos(self.theta2 - self.theta1) * self.alpha2
-            G = self.m2 * math.sin(self.theta2 - self.theta1) * self.a
-            H = 2 * self.m2 * self.v * self.omega2 * math.cos(self.theta2 - self.theta1)
-            I = self.m2 * (self.l2 + self.x) * math.sin(self.theta2 - self.theta1) * (self.omega2)**2
-            J = (self.m1 + self.m2) * self.g * math.sin(self.theta1)
-            K = self.l2 + self.x
-            P = self.l1 * math.cos(self.theta2 - self.theta1) * self.alpha1
-            Q = self.l1 * math.sin(self.theta2 - self.theta1) * (self.omega1)**2
-            S = self.g * math.sin(self.theta2)
+            E = self.l1 * math.cos(self.theta2 - self.theta1) * (self.omega1)**2
+            F = (self.m1 + self.m2) * (self.l1)
+            G = self.m2 * (self.l2 + self.x) * math.cos(self.theta2 - self.theta1) * self.alpha2
+            H = self.m2 * math.sin(self.theta2 - self.theta1) * self.a
+            I = 2 * self.m2 * self.v * self.omega2 * math.cos(self.theta2 - self.theta1)
+            J = self.m2 * (self.l2 + self.x) * math.sin(self.theta2 - self.theta1) * (self.omega2)**2
+            K = (self.m1 + self.m2) * self.g * math.sin(self.theta1)
+            P = self.l2 + self.x
+            Q = self.l1 * math.cos(self.theta2 - self.theta1) * self.alpha1
+            S = self.l1 * math.sin(self.theta2 - self.theta1) * (self.omega1)**2
+            V = self.g * math.sin(self.theta2)
+            W = 2 * self.omega2 * self.x
 
             #pendulum 1
-            self.alpha1 = -(F + G + H - I + J) / E #standard motion
+            self.alpha1 = -(G + H + I - J + K) / F #standard motion
             self.alpha1 += -2 * self.gamma * self.omega1 #damping
             self.alpha1 += self.A * math.cos(self.B * self.t) #driving force
 
@@ -173,7 +175,7 @@ class EOM():
 
             #pendulum 2
             #length
-            self.a = -A + B + C - D #standard motion
+            self.a = -A + B + C - D + E #standard motion
             self.a += (-self.gamma / self.m2) * self.v #damping, velocity dependant
             self.a += self.A * math.cos(self.B * self.t) #driving force, no dependance on system
 
@@ -182,7 +184,7 @@ class EOM():
             self.x += self.v * self.dt
 
             #angle
-            self.alpha2 = -(P + Q + S) / K #standard motion
+            self.alpha2 = -(Q + S + V + W) / P #standard motion
             self.alpha2 += -2 * self.gamma * self.omega2 #damping
             self.alpha2 += self.A * math.cos(self.B * self.t) #driving force
 
